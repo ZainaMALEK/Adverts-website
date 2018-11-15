@@ -1,48 +1,48 @@
-<?php//advert index
+<?php
 include_once '../includes/settings.inc.php';
-include_once PATH_BASE.'includes/checkaccess.inc.php';
+include_once PATH_BASE . 'includes/checkaccess.inc.php';
+include_once PATH_BASE . 'includes/db.inc.php';
 
+$pdo = connectToDb();
+
+$query = $pdo->prepare(
+  'SELECT * FROM advert
+  WHERE user_id = :user_id
+   ORDER BY id DESC');
+
+$query->execute([':user_id'=>$_SESSION['user_id']]);
+$adverts = $query->fetchAll(PDO::FETCH_OBJ);
+// balise link, img ,a , script generent des requetes http elles sont dans le dom=>URL_BASE 
+//dans les include et les require on utilise PATH_BASE, architecture serveur
 ?>
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!DOCTYPE html>
+ <html lang="en" dir="ltr">
+   <head>
+     <meta charset="utf-8">
+     <title>Project 2: Mes annonces</title>
+   </head>
+   <body>
+     <header>
+       <?php include PATH_BASE . 'includes/menu.inc.php'; ?>
+       <h1>Mes annonces</h1>
+     </header>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <div class="">
+       <a class="btn btn-primary" href="add.php">Déposer une annonce</a>
 
-    <title>Ajout d'une annonce</title>
-  </head>
-  <body>
-    <header>
+     </div>
+     <?php foreach($adverts as $advert): ?>
+       <article class="advert">
+         <h3><?php echo $advert->title; ?></h3>
+         <div>
+           <?php echo $advert->body; ?>
+         </div>
+       </article>
+     <?php endforeach; ?>
 
-      <?php include_once PATH_BASE.'includes/menu.inc.php'; ?>
-    </header>
 
-    <?php if ($isUserAdmin): ?>
 
-      <h2>Ajout d'une annonce</h2>
 
-      <form class=""method="post">
-
-        <label for="title">Description</label>
-        <input type="text" name="title" placeholder="Titre">
-
-        <label for="body">Description</label>
-        <textarea name="body" id= "body" rows="8" cols="80"></textarea>
-      </form>
-
-    <?php else:?>
-      <p>Accès interdit!</p>
-    <?php endif; ?>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
-</html>
+   </body>
+ </html>

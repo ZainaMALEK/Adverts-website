@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 14 nov. 2018 à 16:49
+-- Généré le :  jeu. 15 nov. 2018 à 16:44
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  7.2.11
 
@@ -32,9 +32,18 @@ CREATE TABLE `advert` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `body` varchar(255) NOT NULL,
-  `location` int(11) NOT NULL,
+  `location` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `advert`
+--
+
+INSERT INTO `advert` (`id`, `title`, `body`, `location`, `user_id`) VALUES
+(1, 'bureau', 'donne bureau', '77', 1),
+(2, 'chaise', 'donne chaise', '75', 2),
+(3, 'test annonce category', 'test', '75', 1);
 
 -- --------------------------------------------------------
 
@@ -48,6 +57,15 @@ CREATE TABLE `advert_category` (
   `category_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `advert_category`
+--
+
+INSERT INTO `advert_category` (`id`, `advert_id`, `category_id`) VALUES
+(1, 3, 3),
+(2, 3, 2),
+(3, 3, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -58,6 +76,16 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`) VALUES
+(1, 'bricolage'),
+(2, 'Sport'),
+(3, 'Informatique'),
+(4, 'Transport');
 
 -- --------------------------------------------------------
 
@@ -102,7 +130,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `pseudo`, `email`, `password`, `role`) VALUES
 (1, 'admin', 'admin@admin.admin', 'admin', 'admin'),
-(2, 'lambda', 'guest@guest.com', '1234', 'guest');
+(2, 'lambda', 'guest@guest.com', '1234', 'guest'),
+(3, 'toto', 'toto@toto.com', '1234', 'admin');
 
 --
 -- Index pour les tables déchargées
@@ -152,19 +181,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `advert`
 --
 ALTER TABLE `advert`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `advert_category`
 --
 ALTER TABLE `advert_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `picture`
@@ -182,7 +211,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
